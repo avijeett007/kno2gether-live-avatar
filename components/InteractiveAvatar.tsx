@@ -17,13 +17,13 @@ import { useStreamingAvatarSession } from "./logic/useStreamingAvatarSession";
 import { AvatarControls } from "./AvatarSession/AvatarControls";
 import { useVoiceChat } from "./logic/useVoiceChat";
 import { StreamingAvatarProvider, StreamingAvatarSessionState } from "./logic";
-import { LoadingIcon } from "./Icons";
+import { LoadingIcon, MicIcon } from "./Icons";
 import { MessageHistory } from "./AvatarSession/MessageHistory";
 
 import { AVATARS } from "@/app/lib/constants";
 
 const DEFAULT_CONFIG: StartAvatarRequest = {
-  quality: AvatarQuality.Low,
+  quality: AvatarQuality.High,
   avatarName: AVATARS[0].avatar_id,
   knowledgeId: undefined,
   voice: {
@@ -136,13 +136,20 @@ function InteractiveAvatar() {
           {sessionState === StreamingAvatarSessionState.CONNECTED ? (
             <AvatarControls />
           ) : sessionState === StreamingAvatarSessionState.INACTIVE ? (
-            <div className="flex flex-row gap-4">
-              <Button onClick={() => startSessionV2(true)}>
-                Start Voice Chat
-              </Button>
-              <Button onClick={() => startSessionV2(false)}>
-                Start Text Chat
-              </Button>
+            <div className="flex items-center justify-center">
+              <div className="relative group cursor-pointer">
+                <div 
+                  onClick={() => startSessionV2(true)}
+                  className="relative z-10 flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 shadow-lg"
+                >
+                  <div className="absolute inset-0 rounded-full bg-indigo-600 animate-ping opacity-25"></div>
+                  <div className="absolute inset-0 rounded-full bg-purple-700 animate-pulse opacity-20"></div>
+                  <MicIcon size={40} className="text-white" />
+                </div>
+                <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-indigo-400 font-medium text-center whitespace-nowrap">
+                  Click to start voice chat
+                </div>
+              </div>
             </div>
           ) : (
             <LoadingIcon />

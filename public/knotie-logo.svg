@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="52" height="52" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+             xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <rdf:Description about="https://example.org/logo">
+        <dc:title>K Logo</dc:title>
+        <dc:description>K Logo Icon</dc:description>
+        <dc:creator>Claude</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+  <!-- Logo Icon -->
+  <defs>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3B82F6" /> <!-- blue-500 -->
+      <stop offset="50%" stop-color="#A855F7" /> <!-- purple-500 -->
+      <stop offset="100%" stop-color="#14B8A6" /> <!-- teal-500 -->
+    </linearGradient>
+    <linearGradient id="kGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60A5FA" /> <!-- blue-400 -->
+      <stop offset="50%" stop-color="#C084FC" /> <!-- purple-400 -->
+      <stop offset="100%" stop-color="#2DD4BF" /> <!-- teal-400 -->
+    </linearGradient>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+    </filter>
+  </defs>
+
+  <!-- Logo Background Elements -->
+  <g transform="translate(10, 10)">
+    <!-- Pulse effect base -->
+    <rect x="0" y="0" width="32" height="32" rx="8" fill="url(#iconGradient)" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.5;0.7" dur="2s" repeatCount="indefinite" />
+    </rect>
+    
+    <!-- Blur effect -->
+    <rect x="0" y="0" width="32" height="32" rx="8" fill="url(#iconGradient)" filter="url(#blur)" />
+    
+    <!-- Dark background rotated square -->
+    <g transform="translate(16, 16) rotate(45) translate(-16, -16)">
+      <rect x="2" y="2" width="28" height="28" rx="6" fill="#111827" /> <!-- gray-900 -->
+      <rect x="4" y="4" width="24" height="24" rx="4" fill="#111827" /> <!-- gray-900 inner -->
+    </g>
+    
+    <!-- K letter -->
+    <text x="16" y="22" text-anchor="middle" font-size="20" font-weight="bold" fill="url(#kGradient)" font-family="Arial, sans-serif">K</text>
+  </g>
+</svg>

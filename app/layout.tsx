@@ -16,11 +16,11 @@ const fontMono = FontMono({
 
 export const metadata: Metadata = {
   title: {
-    default: "HeyGen Interactive Avatar SDK Demo",
-    template: `%s - HeyGen Interactive Avatar SDK Demo`,
+    default: "Knotie-AI Pro Interactive Avatar",
+    template: `%s - Knotie-AI Pro Interactive Avatar`,
   },
   icons: {
-    icon: "/heygen-logo.png",
+    icon: "/knotie-logo.svg",
   },
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({
       lang="en"
     >
       <head />
-      <body className="min-h-screen bg-black text-white">
+      <body className="min-h-screen bg-gradient-to-b from-black to-indigo-950 text-white">
         <main className="relative flex flex-col gap-6 h-screen w-screen">
           <NavBar />
           {children}

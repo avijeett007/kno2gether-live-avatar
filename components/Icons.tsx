@@ -1,5 +1,5 @@
-export function HeyGenLogo() {
-  return <img alt="HeyGen Logo" className="h-8" src="/heygen-logo.png" />;
+export function KnotieAILogo() {
+  return <img alt="Knotie-AI Pro" className="h-12" src="/knotie-logo.svg" />;
 }
 
 type IconSvgProps = {

@@ -2,55 +2,41 @@
 
 import Link from "next/link";
 
-import { GithubIcon, HeyGenLogo } from "./Icons";
+import { GithubIcon, KnotieAILogo } from "./Icons";
 
 export default function NavBar() {
   return (
     <>
       <div className="flex flex-row justify-between items-center w-[1000px] m-auto p-6">
         <div className="flex flex-row items-center gap-4">
-          <Link href="https://app.heygen.com/" target="_blank">
-            <HeyGenLogo />
-          </Link>
-          <div className="bg-gradient-to-br from-sky-300 to-indigo-500 bg-clip-text">
-            <p className="text-xl font-semibold text-transparent">
-              HeyGen Interactive Avatar SDK NextJS Demo
+          <div className="flex items-center">
+            <KnotieAILogo />
+          </div>
+          <div className="bg-gradient-to-br from-indigo-400 to-purple-600 bg-clip-text">
+            <p className="text-xl font-bold text-transparent">
+              Knotie-AI Pro Interactive Avatar
             </p>
           </div>
         </div>
         <div className="flex flex-row items-center gap-6">
           <Link
-            href="https://labs.heygen.com/interactive-avatar"
+            href="https://youtube.com/@kno2gether"
             target="_blank"
+            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-md hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 animate-pulse"
           >
-            Avatars
+            Subscribe to Kno2gether
           </Link>
           <Link
-            href="https://docs.heygen.com/reference/list-voices-v2"
-            target="_blank"
+            href="mailto:support@kno2gether.com"
+            className="px-4 py-2 border border-indigo-500 text-indigo-400 font-medium rounded-md hover:bg-indigo-500 hover:text-white transition-all duration-300"
           >
-            Voices
+            Contact Us
           </Link>
           <Link
-            href="https://docs.heygen.com/reference/new-session-copy"
-            target="_blank"
+            href="mailto:support@knotie-ai.pro"
+            className="px-4 py-2 bg-gray-800 text-white font-medium rounded-md hover:bg-gray-700 transition-all duration-300"
           >
-            API Docs
-          </Link>
-          <Link
-            href="https://help.heygen.com/en/articles/9182113-interactive-avatar-101-your-ultimate-guide"
-            target="_blank"
-          >
-            Guide
-          </Link>
-          <Link
-            aria-label="Github"
-            className="flex flex-row justify-center gap-1 text-foreground"
-            href="https://github.com/HeyGen-Official/StreamingAvatarSDK"
-            target="_blank"
-          >
-            <GithubIcon className="text-default-500" />
-            SDK
+            Reach out to Knotie-AI Pro
           </Link>
         </div>
       </div>
