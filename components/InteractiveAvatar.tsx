@@ -44,8 +44,10 @@ function InteractiveAvatar() {
   const { startVoiceChat } = useVoiceChat();
 
   const [config, setConfig] = useState<StartAvatarRequest>(DEFAULT_CONFIG);
+  const [userVideoStream, setUserVideoStream] = useState<MediaStream | null>(null);
 
   const mediaStream = useRef<HTMLVideoElement>(null);
+  const userVideoRef = useRef<HTMLVideoElement>(null);
 
   async function fetchAccessToken() {
     try {
@@ -63,8 +65,77 @@ function InteractiveAvatar() {
     }
   }
 
+  // Function to start the user's webcam
+  const startUserCamera = async () => {
+    try {
+      // Release any existing streams first
+      if (userVideoStream) {
+        userVideoStream.getTracks().forEach(track => track.stop());
+        setUserVideoStream(null);
+      }
+      
+      console.log('Requesting camera access...');
+      // Use more specific constraints to help with initialization
+      const constraints = {
+        video: {
+          width: { ideal: 640 },
+          height: { ideal: 360 },
+          facingMode: "user"
+        },
+        audio: true
+      };
+      
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      console.log('Camera access granted:', stream);
+      
+      // Check that we actually have video tracks
+      const videoTracks = stream.getVideoTracks();
+      if (videoTracks.length === 0) {
+        throw new Error("No video tracks found in media stream");
+      }
+      
+      console.log('Video tracks:', videoTracks);
+      setUserVideoStream(stream);
+      
+      // Set the stream directly
+      if (userVideoRef.current) {
+        userVideoRef.current.srcObject = null; // Clear any existing sources
+        userVideoRef.current.srcObject = stream;
+        console.log('Video element:', userVideoRef.current);
+        
+        // Force play with a small delay
+        setTimeout(() => {
+          if (userVideoRef.current) {
+            userVideoRef.current.play()
+              .then(() => console.log('Video is playing'))
+              .catch(e => console.error('Error playing video:', e));
+          }
+        }, 100);
+      }
+      
+      return stream;
+    } catch (error) {
+      console.error("Error accessing webcam:", error);
+      // Handle the unknown error type safely
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert(`Unable to access your camera: ${errorMessage}. Please check if another app is using your camera.`);
+      return null;
+    }
+  };
+  
+  // Function to stop the user's webcam
+  const stopUserCamera = () => {
+    if (userVideoStream) {
+      userVideoStream.getTracks().forEach(track => track.stop());
+      setUserVideoStream(null);
+    }
+  };
+
   const startSessionV2 = useMemoizedFn(async (isVoiceChat: boolean) => {
     try {
+      // Start the user's camera first
+      await startUserCamera();
+      
       const newToken = await fetchAccessToken();
       const avatar = initAvatar(newToken);
 
@@ -76,6 +147,8 @@ function InteractiveAvatar() {
       });
       avatar.on(StreamingEvents.STREAM_DISCONNECTED, () => {
         console.log("Stream disconnected");
+        // Stop the camera when the stream disconnects
+        stopUserCamera();
       });
       avatar.on(StreamingEvents.STREAM_READY, (event) => {
         console.log(">>>>> Stream ready:", event.detail);
@@ -106,11 +179,14 @@ function InteractiveAvatar() {
       }
     } catch (error) {
       console.error("Error starting avatar session:", error);
+      // Make sure to clean up camera if there's an error
+      stopUserCamera();
     }
   });
 
   useUnmount(() => {
     stopAvatar();
+    stopUserCamera();
   });
 
   useEffect(() => {
@@ -122,12 +198,94 @@ function InteractiveAvatar() {
     }
   }, [mediaStream, stream]);
 
+  // Function to force restart camera when needed
+  const forceRestartCamera = async () => {
+    // Stop any existing streams
+    if (userVideoStream) {
+      userVideoStream.getTracks().forEach(track => track.stop());
+      setUserVideoStream(null);
+    }
+    
+    // Reset the video element
+    if (userVideoRef.current) {
+      userVideoRef.current.srcObject = null;
+    }
+    
+    // Small delay before restarting
+    setTimeout(() => {
+      startUserCamera();
+    }, 500);
+  };
+  
+  // Effect to handle the user's webcam video element
+  useEffect(() => {
+    if (userVideoStream && userVideoRef.current) {
+      console.log('Setting video source in effect hook');
+      userVideoRef.current.srcObject = userVideoStream;
+      userVideoRef.current.onloadedmetadata = () => {
+        console.log('Video metadata loaded, playing');
+        userVideoRef.current!.play().catch(e => console.error('Error playing video:', e));
+      };
+    }
+
+    // Cleanup function
+    return () => {
+      if (userVideoStream) {
+        console.log('Cleaning up user video stream');
+      }
+    };
+  }, [userVideoStream]);
+
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="flex flex-col rounded-xl bg-zinc-900 overflow-hidden">
         <div className="relative w-full aspect-video overflow-hidden flex flex-col items-center justify-center">
           {sessionState !== StreamingAvatarSessionState.INACTIVE ? (
-            <AvatarVideo ref={mediaStream} />
+            <div className="relative w-full h-full">
+              {/* Main avatar display */}
+              <div className="w-full h-full">
+                <AvatarVideo ref={mediaStream} />
+              </div>
+              
+              {/* User webcam display (small picture-in-picture) */}
+              <div className="absolute bottom-4 right-4 w-1/3 aspect-video rounded-lg overflow-hidden shadow-xl border-2 border-indigo-500 z-10">
+                {userVideoStream ? (
+                  <>
+                    <video
+                      ref={userVideoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      width="100%"
+                      height="100%"
+                      style={{
+                        backgroundColor: "#000",
+                        objectFit: "cover",
+                        transform: "scaleX(-1)" // Mirror the camera
+                      }}
+                    />
+                    <div className="absolute top-1 left-1 text-xs text-white bg-black/50 px-1 rounded">
+                      Your Camera
+                    </div>
+                    {/* Camera troubleshooting button */}
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault(); 
+                        e.stopPropagation();
+                        forceRestartCamera();
+                      }}
+                      className="absolute bottom-1 right-1 text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-2 py-1 rounded transition-colors duration-200"
+                    >
+                      Restart Camera
+                    </button>
+                  </>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-black/50 text-indigo-400">
+                    Waiting for camera...
+                  </div>
+                )}
+              </div>
+            </div>
           ) : (
             <AvatarConfig config={config} onConfigChange={setConfig} />
           )}
@@ -147,7 +305,7 @@ function InteractiveAvatar() {
                   <MicIcon size={40} className="text-white" />
                 </div>
                 <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-indigo-400 font-medium text-center whitespace-nowrap">
-                  Click to start voice chat
+                  Click to start video call
                 </div>
               </div>
             </div>
