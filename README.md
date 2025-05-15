@@ -1,42 +1,100 @@
-# HeyGen Interactive Avatar NextJS Demo
+# Knotie-AI Pro Interactive Avatar
 
-![HeyGen Interactive Avatar NextJS Demo Screenshot](./public/demo.png)
+![Knotie-AI Pro Interactive Avatar](https://img.youtube.com/vi/C5hKNpI92O0/0.jpg)
 
-This is a sample project and was bootstrapped using [NextJS](https://nextjs.org/).
-Feel free to play around with the existing code and please leave any feedback for the SDK [here](https://github.com/HeyGen-Official/StreamingAvatarSDK/discussions).
+This project is a fork of [HeyGen's InteractiveAvatarNextJSDemo](https://github.com/HeyGen-Official/InteractiveAvatarNextJSDemo) that showcases an interactive AI avatar with voice chat capabilities. Built with NextJS and the HeyGen Streaming Avatar SDK, this application enables real-time conversations with AI-powered digital avatars.
 
-## Getting Started FAQ
+## ✨ Features
 
-### Setting up the demo
+- **Interactive AI Avatars** with realistic expressions and movements
+- **Real-time voice conversations** using WebRTC technology
+- **Multiple avatar options** including therapists, fitness coaches, and tech experts
+- **Customizable voice settings** including emotion and speech rate
+- **Multi-language support** for global accessibility
+- **Responsive design** for both desktop and mobile devices
 
-1. Clone this repo
+## 🚀 Getting Started
 
-2. Navigate to the repo folder in your terminal
+### Prerequisites
 
-3. Run `npm install` (assuming you have npm installed. If not, please follow these instructions: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/)
+- Node.js 18+ and npm/yarn
+- A HeyGen Enterprise API Token
+- (Optional) OpenAI API Key for enhanced AI capabilities
 
-4. Enter your HeyGen Enterprise API Token in the `.env` file. Replace `HEYGEN_API_KEY` with your API key. This will allow the Client app to generate secure Access Tokens with which to create interactive sessions.
+### Installation
 
-   You can retrieve either the API Key by logging in to HeyGen and navigating to this page in your settings: [https://app.heygen.com/settings?from=&nav=Subscriptions%20%26%20API]. 
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/avijeett007/kno2gether-live-avatar.git
+   cd kno2gether-live-avatar
+   ```
 
-5. (Optional) If you would like to use the OpenAI features, enter your OpenAI Api Key in the `.env` file.
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-6. Run `npm run dev`
+3. Create a `.env` file in the root directory with your API keys:
+   ```
+   HEYGEN_API_KEY=your_heygen_api_key
+   OPENAI_API_KEY=your_openai_api_key (optional)
+   ```
 
-### Starting sessions
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-NOTE: Make sure you have enter your token into the `.env` file and run `npm run dev`.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-To start your 'session' with a Interactive Avatar, first click the 'start' button. If your HeyGen API key is entered into the Server's .env file, then you should see our demo Interactive Avatar appear.
+## 🎮 How to Use
 
-If you want to see a different Avatar or try a different voice, you can close the session and enter the IDs and then 'start' the session again. Please see below for information on where to retrieve different Avatar and voice IDs that you can use.
+1. When the application loads, you'll see the interactive avatar interface.
+2. Click the "Start" button to initialize the avatar session.
+3. Allow camera and microphone access when prompted.
+4. Begin speaking with the avatar - it will respond in real-time.
+5. Use the controls to mute/unmute your microphone or end the session.
+6. You can customize avatar settings before starting a new session.
 
-### Which Avatars can I use with this project?
+## 🧩 Project Structure
 
-By default, there are several Public Avatars that can be used in Interactive Avatar. (AKA Interactive Avatars.) You can find the Avatar IDs for these Public Avatars by navigating to [labs.heygen.com/interactive-avatar](https://labs.heygen.com/interactive-avatar) and clicking 'Select Avatar' and copying the avatar id.
+- `/app`: Next.js application routes and API endpoints
+- `/components`: React components including the interactive avatar interface
+- `/public`: Static assets and images
+- `/styles`: CSS and styling files
 
-You can create your own custom Interactive Avatars at labs.heygen.com/interactive-avatar by clicking 'create interactive avatar' on the top-left of the screen.
+## 🔧 Configuration Options
 
-### Where can I read more about enterprise-level usage of the Interactive Avatar API?
+The avatar can be customized with various options:
 
-Please read our Interactive Avatar 101 article for more information on pricing: https://help.heygen.com/en/articles/9182113-interactive-avatar-101-your-ultimate-guide
+- **Avatar Selection**: Choose from multiple pre-configured avatars
+- **Voice Settings**: Adjust emotion, rate, and language
+- **Quality Settings**: Select between different quality levels
+
+## 📱 Responsive Design
+
+The application is designed to work on both desktop and mobile devices, with an optimized interface that adapts to different screen sizes.
+
+## 🌐 Subscribe to Knotie-AI Pro
+
+For more AI tools and services like this interactive avatar, visit [Knotie-AI Pro](https://knotie-ai.pro) or contact us at support@knotie-ai.pro.
+
+## 📺 Watch Our Tutorial
+
+Learn how to use and customize this interactive avatar in our detailed tutorial:
+
+[![Knotie-AI Pro Interactive Avatar Tutorial](https://img.youtube.com/vi/C5hKNpI92O0/0.jpg)](https://youtu.be/C5hKNpI92O0)
+
+## 👏 Acknowledgements
+
+- [HeyGen](https://www.heygen.com/) for the Streaming Avatar SDK
+- [Next.js](https://nextjs.org/) for the React framework
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
